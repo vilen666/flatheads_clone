@@ -89,9 +89,9 @@ const NavItems = (props) => {
         {
             opacity: 0,
             scale: 0,
-            y: "125%",
+            y: "120%",
             transition: {
-                delay:0.3,
+                delay:1,
                 duration: 0,
             }
         },
@@ -105,25 +105,30 @@ const NavItems = (props) => {
             }
         }
     }
+    const [navItemStart, setnavItemStart] = useState(false);
+    useEffect(() => {
+        navItemStart?control.start("clicked") : control.start("initial")
+    }, [navItemStart]);
     return (
         <>
             <motion.div className='cursor-pointer'
-                whileHover={() => { control.start("clicked") }}
-                onMouseLeave={() => control.start("initial")}
+                onHoverStart={()=>setnavItemStart(true)}
+                onHoverEnd={()=>setnavItemStart(false)}
             >{props.items.id}</motion.div>
-            <motion.div initial="initial" animate={control} variants={{initial:{
+            <motion.div initial="initial" animate={control} 
+            variants={{initial:{
                 scaleX:0,
                 y:3
             },
             clicked:{
                 scaleX:1
             }
-            }} transition={{duration:0.3,}} style={{transformOrigin:"left"}} className='w-[120%] h-[2px] bg-slate-700 absolute'></motion.div>
+            }} transition={{duration:0.3,}} style={{transformOrigin:"left"}} className='w-[120%] h-[2px] bg-slate-700 absolute pointer-events-none'></motion.div>
              {props.items.subId && <> <i class="ri-arrow-drop-down-line text-4xl inline font-thin transform translate-y-2"></i>
-            <motion.div className='flex flex-col cursor-pointer absolute bg-white bottom-0 transform text-sm font-semibold gap-2'
+            <motion.div className='flex flex-col cursor-pointer absolute bg-white bottom-0 transform text-sm font-semibold gap-2 z-20'
                 initial="initial"
-                onMouseEnter={() => { control.start("clicked") }}
-                onMouseLeave={() => {control.start("initial")}}
+                onHoverStart={()=>setnavItemStart(true)}
+                onHoverEnd={()=>setnavItemStart(false)}
                 animate={control}
                 variants={dropDownvar}
                 style={{
@@ -131,10 +136,16 @@ const NavItems = (props) => {
                 }}>
                 {props.items.subId.map((subItem) => {
                     return (
-                        <motion.div className=' capitalize text-nowrap'
+                        <motion.div className=' capitalize text-nowrap block '
+                        onHoverStart={()=>setnavItemStart(true)}
+                        onHoverEnd={()=>setnavItemStart(false)}
                         variants={{initial:{
                             y:3,
-                            opacity:0
+                            opacity:0,
+                            transition:
+                            {
+                                delay:0.3,
+                            }
                         },
                         clicked:{
                             y:0,
