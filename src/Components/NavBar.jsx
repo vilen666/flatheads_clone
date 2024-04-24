@@ -1,10 +1,10 @@
 import React, { useEffect, useState } from 'react';
-import { motion, stagger, useAnimation } from "framer-motion";
+import { animate, motion, stagger, useAnimation } from "framer-motion";
 
 export const NavBar = () => {
     const control = useAnimation();
     const textSlidevar = {
-        slide: { x: "-100%", transition: { delay: 0.8, duration: 80, ease: "linear", repeat: Infinity, repeatType: "loop", repeatDelay: 0 } }
+        slide: { x: "-80%", transition: { delay: 0.8, duration: 80, ease: "linear", repeat: Infinity, repeatType: "loop", repeatDelay: 0 } }
     };
     const dropDownvar = {
         initial:
@@ -30,9 +30,13 @@ export const NavBar = () => {
         <p className='text-nowrap'>Due to overwhelming demand, order shipment times are delayed. Apologies for the inconvenience.</p>
     );
     const navItems = [{ id: "Retro +" }, { id: "Nostalgia" }, { id: "Chic sneak" }, { id: "wyn" }, { id: "classics", subId: [{ id: "Elipsis" }, { id: "luft" }, { id: "line sneakers" }] }, { id: "Tshirts" }, { id: "styched Collectives", subId: [{ id: "Elipsis" }, { id: "luft" }, { id: "line sneakers" }] }]
+    const [navOpen, setnavOpen] = useState(false);
     useEffect(() => {
         control.start("slide")
     }, []);
+    useEffect(() => {
+        navOpen ? control.start("open") : control.start("closed")
+    }, [navOpen]);
     return (
         <>
             <div className='first_header w-full h-10 bg-[#c8ffe6] flex justify-center items-center tracking-wider text-sm font-[myFont2] font-bold'>
@@ -49,22 +53,22 @@ export const NavBar = () => {
                     {textGoing}
                 </motion.div>
             </div>
-            <div className="social_links w-full h-fit flex items-center justify-end gap-2 pr-20 pt-7 text-xl">
-                <i class="ri-instagram-line"></i>
-                <i class="ri-facebook-circle-fill"></i>
-                <i class="ri-youtube-fill"></i>
-                <i class="ri-twitter-fill"></i>
-                <i class="ri-linkedin-fill"></i>
+            <div className="social_links w-full h-fit flex items-center justify-end gap-2 pr-20 pt-7 text-xl ">
+                <i class="ri-instagram-line cursor-pointer"></i>
+                <i class="ri-facebook-circle-fill cursor-pointer"></i>
+                <i class="ri-youtube-fill cursor-pointer"></i>
+                <i class="ri-twitter-fill cursor-pointer"></i>
+                <i class="ri-linkedin-fill cursor-pointer"></i>
             </div>
             <hr />
-            <div className=" main w-full h-fit flex flex-shrink flex-grow-0 items-end justify-between gap-8 px-14 pt-5">
-                <div className="logo text-3xl font-bold cursor-pointer">Flatheads</div>
-                <div className="flex gap-12 uppercase">
+            <div className=" Navmain w-full h-fit flex flexitems-end justify-between lg:flex-nowrap lg:justify-end gap-[1.5vw] px-14 pt-5 ">
+                <div className="logo text-2xl md:text-3xl font-bold cursor-pointer">Flatheads</div>
+                <div className="hidden lg:flex gap-12 uppercase flex-wrap pb-3">
                     {
                         navItems.map((items, key) => {
                             return (
                                 <>
-                                    <div className='item text-lg tracking-wider flex gap-1 items-end relative'>
+                                    <div className='items text-lg tracking-wider flex gap-1 items-end relative flex-wrap'>
                                         <NavItems items={items} />
                                     </div>
                                 </>
@@ -73,11 +77,67 @@ export const NavBar = () => {
                         )
                     }
                 </div>
-                <div className="icons text-2xl flex items-end justify-center gap-6">
-                    <i class="ri-user-3-line cursor-pointer"></i>
-                    <i class="ri-search-line cursor-pointer"></i>
-                    <i class="ri-shopping-bag-4-line cursor-pointer"></i>
+                <div className="hidden lg:flex icons text-2xl justify-center gap-4 ">
+                    <motion.i class="ri-user-3-line cursor-pointer rounded-full inline w-fit h-fit px-3 py-2" whileHover={{ color: "white", backgroundColor: "black" }}></motion.i>
+                    <motion.i class="ri-search-line cursor-pointer rounded-full inline w-fit h-fit px-3 py-2" whileHover={{ color: "white", backgroundColor: "black" }}></motion.i>
+                    <motion.i class="ri-shopping-bag-4-line cursor-pointer rounded-full inline w-fit h-fit px-3 py-2" whileHover={{ color: "white", backgroundColor: "black" }}></motion.i>
                 </div>
+                <div className="mobilenav lg:hidden flex text-2xl gap-2 ">
+                    <i class="ri-search-line cursor-pointer"></i>
+                    <i class="ri-menu-fill cursor-pointer" onClick={() => { setnavOpen(prev => !prev) }}></i>
+                    <i class="ri-shopping-bag-line cursor-pointer"></i>
+                </div>
+                <motion.div className='absolute w-full h-screen flex justify-end  top-0 left-0 lg:hidden overflow-y-scroll'
+                    initial="closed"
+                    animate={control}
+                    variants={{
+                        open: {
+                            scaleX: 1,
+                            opacity: 1,
+                            transition: {
+                                duration: 0.3,
+                                staggerChildren: 0.2,
+                            }
+                        },
+                        closed: {
+                            scaleX: 0,
+                            opacity: 0,
+                            transition: {
+                                duration: 0.3,
+                                staggerChildren:0.2,
+                            }
+                        }
+                    }}
+                    style={{
+                        transformOrigin: "right"
+                    }}
+                >
+                    <div className=' w-1/2 h-[125%] bg-slate-400 opacity-40' onClick={() => { setnavOpen(prev => !prev) }}></div>
+                    <motion.div className='w-1/2 h-full bg-white flex flex-col px-3 py-3'>
+                        <div className=' p-3 text-2xl flex justify-end cursor-pointer'>
+                            <motion.i class="ri-close-line"
+                                whileHover={{ rotate: 180 }}
+                                onClick={() => { setnavOpen(prev => !prev) }}></motion.i>
+                        </div>
+                        <div className='flex flex-col text-lg uppercase tracking-wider mb-3 h-fit' >
+                            {navItems.map((item) => {
+                                return (
+                                    <NavItemsMobile item={item} className="p-2 cursor-pointer font-mono" variants={{ open:{y:0,opacity:1,transition:{duration:0.2,staggerChildren:0.2}},closed:{y:6,opacity:0}}} />
+                                )
+                            })}
+                        </div>
+                        <div className=' text-base font-thin cursor-pointer'>Log in</div>
+                        <div className="icon mt-8 text-center">
+                            <i class="ri-instagram-line w-[33%] py-2 font-mono cursor-pointer text-2xl border-opacity-30 border-2 border-slate-400 float-left"></i>
+                            <i class="ri-instagram-line w-[33%] py-2 font-mono cursor-pointer text-2xl border-opacity-30 border-2 border-slate-400 float-left"></i>
+                            <i class="ri-instagram-line w-[33%] py-2 font-mono cursor-pointer text-2xl border-opacity-30 border-2 border-slate-400 float-left"></i>
+                            <i class="ri-instagram-line w-[33%] py-2 font-mono cursor-pointer text-2xl border-opacity-30 border-2 border-slate-400 float-left"></i>
+                            <i class="ri-instagram-line w-[33%] py-2 font-mono cursor-pointer text-2xl border-opacity-30 border-2 border-slate-400 float-left"></i>
+                            <i class="ri-instagram-line w-[33%] py-2 font-mono cursor-pointer text-2xl border-opacity-30 border-2 border-slate-400 float-left"></i>
+                            <i class="ri-instagram-line w-[33%] py-2 font-mono cursor-pointer text-2xl border-opacity-30 border-2 border-slate-400 float-left"></i>
+                        </div>
+                    </motion.div>
+                </motion.div>
             </div>
         </>
     );
@@ -91,7 +151,7 @@ const NavItems = (props) => {
             scaleY: 0,
             y: "100%",
             transition: {
-                delay: 3,
+                delay: 0,
                 duration: 0,
             }
         },
@@ -126,46 +186,100 @@ const NavItems = (props) => {
                             scaleX: 1
                         }
                     }} transition={{ duration: 0.3, }} style={{ transformOrigin: "left" }} className='w-[120%] h-[2px] bg-slate-700 z-[2] absolute pointer-events-none'></motion.div>
-                    {props.items.subId && <>
-                        <i class="ri-arrow-drop-down-line text-4xl inline font-thin transform translate-y-2"></i>
+                {props.items.subId && <>
+                    <i class="ri-arrow-drop-down-line text-4xl inline font-thin transform translate-y-2"></i>
                     <motion.div className='flex flex-col cursor-pointer absolute bg-white bottom-0 text-sm font-semibold gap-2 pt-5'
-                    initial="initial"
-                    animate={control}
-                    variants={dropDownvar}
-                    style={{
-                        transformOrigin: "top"
-                    }}>
-                    
+                        initial="initial"
+                        animate={control}
+                        variants={dropDownvar}
+                        style={{
+                            transformOrigin: "top"
+                        }}>
+
                         {props.items.subId.map((subItem) => {
-                        return (
-                            <motion.div className=' capitalize text-nowrap '
-                                variants={{
-                                    initial: {
-                                        y: 3,
-                                        opacity: 0,
-                                        transition:
-                                        {
-                                            delay: 0.3,
+                            return (
+                                <motion.div className=' capitalize text-nowrap '
+                                    variants={{
+                                        initial: {
+                                            y: 3,
+                                            opacity: 0,
+                                            transition:
+                                            {
+                                                delay: 0.3,
+                                            }
+                                        },
+                                        clicked: {
+                                            y: 0,
+                                            opacity: 1,
+                                            transition:
+                                            {
+                                                duration: 0.1,
+                                            }
                                         }
-                                    },
-                                    clicked: {
-                                        y: 0,
-                                        opacity: 1,
-                                        transition:
-                                        {
-                                            duration: 0.1,
-                                        }
-                                    }
-                                }}
-                            >{subItem.id}</motion.div>
-                        )
-                    })}
-                    
+                                    }}
+                                >{subItem.id}</motion.div>
+                            )
+                        })}
+
                     </motion.div>
-                    </>}      
+                </>}
             </div>
         </>
     )
 }
-
+const NavItemsMobile = (props) => {
+    const [clicked, setclicked] = useState(false);
+    const control = useAnimation();
+    console.log(props.variants)
+    useEffect(() => {
+        (!clicked) ? control.start("closed") : control.start("open")
+    }, [clicked]);
+    return (
+        <>
+            <hr />
+            <motion.div className={`${props.className}`} onClick={() => { setclicked(prev => !prev); }} variants={props.variants}>{props.item.id}
+                {props.item.subId && <i class="ri-arrow-drop-down-line"></i>}
+            </motion.div>
+            {props.item.subId && clicked &&
+                <motion.div className='px-6 text-sm py-2'
+                    initial="closed"
+                    animate={control}
+                    variants={{closed:{},
+                open:{
+                    transition:{
+                        staggerChildren:0.3
+                    }
+                }}}
+                >
+                    {
+                        props.item.subId.map((items) => {
+                            return (
+                                <motion.div className='cursor-pointer'
+                                    variants={{
+                                        closed: {
+                                            y: 6,
+                                            opacity: 0,
+                                            transition: {
+                                                duration: 0
+                                            }
+                                        },
+                                        open: {
+                                            y: 0,
+                                            opacity: 1,
+                                            transition: {
+                                                duration: 0.3
+                                            }
+                                        }
+                                    }}
+                                >
+                                    {items.id}
+                                </motion.div>
+                            )
+                        })
+                    }
+                </motion.div>}
+            <hr />
+        </>
+    )
+}
 export default NavBar;
