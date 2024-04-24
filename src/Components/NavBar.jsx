@@ -230,7 +230,6 @@ const NavItems = (props) => {
 const NavItemsMobile = (props) => {
     const [clicked, setclicked] = useState(false);
     const control = useAnimation();
-    console.log(props.variants)
     useEffect(() => {
         (!clicked) ? control.start("closed") : control.start("open")
     }, [clicked]);
