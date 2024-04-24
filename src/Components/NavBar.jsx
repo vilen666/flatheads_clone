@@ -65,7 +65,7 @@ export const NavBar = () => {
                             return (
                                 <>
                                     <div className='item text-lg tracking-wider flex gap-1 items-end relative'>
-                                        <NavItems items={items}/>
+                                        <NavItems items={items} />
                                     </div>
                                 </>
                             )
@@ -82,7 +82,7 @@ export const NavBar = () => {
         </>
     );
 };
-const NavItems = (props) => {
+const NavItems1 = (props) => {
     const control = useAnimation();
     const dropDownvar = {
         initial:
@@ -91,7 +91,7 @@ const NavItems = (props) => {
             scale: 0,
             y: "120%",
             transition: {
-                delay:1,
+                delay: 1,
                 duration: 0,
             }
         },
@@ -100,67 +100,155 @@ const NavItems = (props) => {
             opacity: 1,
             scale: 1,
             transition: {
-                staggerChildren:0.2,
-                delay:0,
+                staggerChildren: 0.2,
+                delay: 0,
             }
         }
     }
     const [navItemStart, setnavItemStart] = useState(false);
     useEffect(() => {
-        navItemStart?control.start("clicked") : control.start("initial")
+        navItemStart ? control.start("clicked") : control.start("initial")
     }, [navItemStart]);
     return (
         <>
             <motion.div className='cursor-pointer'
-                onHoverStart={()=>setnavItemStart(true)}
-                onHoverEnd={()=>setnavItemStart(false)}
+                onHoverStart={() => setnavItemStart(true)}
+                onHoverEnd={() => setnavItemStart(false)}
             >{props.items.id}</motion.div>
-            <motion.div initial="initial" animate={control} 
-            variants={{initial:{
-                scaleX:0,
-                y:3
-            },
-            clicked:{
-                scaleX:1
-            }
-            }} transition={{duration:0.3,}} style={{transformOrigin:"left"}} className='w-[120%] h-[2px] bg-slate-700 absolute pointer-events-none'></motion.div>
-             {props.items.subId && <> <i class="ri-arrow-drop-down-line text-4xl inline font-thin transform translate-y-2"></i>
-            <motion.div className='flex flex-col cursor-pointer absolute bg-white bottom-0 transform text-sm font-semibold gap-2 z-20'
-                initial="initial"
-                onHoverStart={()=>setnavItemStart(true)}
-                onHoverEnd={()=>setnavItemStart(false)}
-                animate={control}
-                variants={dropDownvar}
-                style={{
-                    transformOrigin: "top"
-                }}>
-                {props.items.subId.map((subItem) => {
-                    return (
-                        <motion.div className=' capitalize text-nowrap block '
-                        onHoverStart={()=>setnavItemStart(true)}
-                        onHoverEnd={()=>setnavItemStart(false)}
-                        variants={{initial:{
-                            y:3,
-                            opacity:0,
-                            transition:
-                            {
-                                delay:0.3,
-                            }
-                        },
-                        clicked:{
-                            y:0,
-                            opacity:1,
-                            transition:
-                            {
-                                duration:0.3,
-                            }
-                        }}}
-                        >{subItem.id}</motion.div>
-                    )
-                })}
+            <motion.div initial="initial" animate={control}
+                variants={{
+                    initial: {
+                        scaleX: 0,
+                        y: 3
+                    },
+                    clicked: {
+                        scaleX: 1
+                    }
+                }} transition={{ duration: 0.3, }} style={{ transformOrigin: "left" }} className='w-[120%] h-[2px] bg-slate-700 absolute pointer-events-none'></motion.div>
+            {props.items.subId && <> <i class="ri-arrow-drop-down-line text-4xl inline font-thin transform translate-y-2"></i>
+                <motion.div className='flex flex-col cursor-pointer absolute bg-white bottom-0 transform text-sm font-semibold gap-2 z-20'
+                    initial="initial"
+                    onHoverStart={() => setnavItemStart(true)}
+                    onHoverEnd={() => setnavItemStart(false)}
+                    animate={control}
+                    variants={dropDownvar}
+                    style={{
+                        transformOrigin: "top"
+                    }}>
+                    {props.items.subId.map((subItem) => {
+                        return (
+                            <motion.div className=' capitalize text-nowrap block '
+                                onHoverStart={() => setnavItemStart(true)}
+                                onHoverEnd={() => setnavItemStart(false)}
+                                variants={{
+                                    initial: {
+                                        y: 3,
+                                        opacity: 0,
+                                        transition:
+                                        {
+                                            delay: 0.3,
+                                        }
+                                    },
+                                    clicked: {
+                                        y: 0,
+                                        opacity: 1,
+                                        transition:
+                                        {
+                                            duration: 0.1,
+                                        }
+                                    }
+                                }}
+                            >{subItem.id}</motion.div>
+                        )
+                    })}
                 </motion.div></>}
-            </>
-            )
+        </>
+    )
+}
+const NavItems = (props) => {
+    const control = useAnimation();
+    const dropDownvar = {
+        initial:
+        {
+            opacity: 0,
+            scaleY: 0,
+            y: "100%",
+            transition: {
+                delay: 3,
+                duration: 0,
+            }
+        },
+        clicked:
+        {
+            opacity: 1,
+            scaleY: 1,
+            transition: {
+                staggerChildren: 0.2,
+                delay: 0,
+            }
+        }
+    }
+    const [navItemStart, setnavItemStart] = useState(false);
+    useEffect(() => {
+        navItemStart ? control.start("clicked") : control.start("initial")
+    }, [navItemStart]);
+    return (
+        <>
+            <div className='main h-fit bg-white relative flex items-end'
+                onMouseEnter={() => setnavItemStart(true)}
+                onMouseLeave={() => setnavItemStart(false)}
+            >
+                <div className='cursor-pointer'>{props.items.id}</div>
+                <motion.div initial="initial" animate={control}
+                    variants={{
+                        initial: {
+                            scaleX: 0,
+                            y: 3
+                        },
+                        clicked: {
+                            scaleX: 1
+                        }
+                    }} transition={{ duration: 0.3, }} style={{ transformOrigin: "left" }} className='w-[120%] h-[2px] bg-slate-700 z-[2] absolute pointer-events-none'></motion.div>
+                    {props.items.subId && <>
+                        <i class="ri-arrow-drop-down-line text-4xl inline font-thin transform translate-y-2"></i>
+                    <motion.div className='flex flex-col cursor-pointer absolute bg-white bottom-0 text-sm font-semibold gap-2 pt-5'
+                    initial="initial"
+                    animate={control}
+                    variants={dropDownvar}
+                    style={{
+                        transformOrigin: "top"
+                    }}>
+                    
+                        {props.items.subId.map((subItem) => {
+                        return (
+                            <motion.div className=' capitalize text-nowrap '
+                                variants={{
+                                    initial: {
+                                        y: 3,
+                                        opacity: 0,
+                                        transition:
+                                        {
+                                            delay: 0.3,
+                                        }
+                                    },
+                                    clicked: {
+                                        y: 0,
+                                        opacity: 1,
+                                        transition:
+                                        {
+                                            duration: 0.1,
+                                        }
+                                    }
+                                }}
+                            >{subItem.id}</motion.div>
+                        )
+                    })}
+                    
+                    </motion.div>
+                    </>}      
+            </div>
+        </>
+    )
 }
 
-            export default NavBar;
+export default NavBar;
