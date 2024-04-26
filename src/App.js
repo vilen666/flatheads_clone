@@ -1,10 +1,10 @@
 import React from 'react'
-import { NavBar } from './Components/NavBar'
+import Home from './Pages/Home'
 const App = () => {
   return (
-    <div className='w-full h-screen overflow-hidden'>
-        <NavBar/>
-    </div>
+    <>
+    <Home/>
+    </>
   )
 }
 

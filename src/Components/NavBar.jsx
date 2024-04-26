@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { animate, motion, stagger, useAnimation } from "framer-motion";
+import { motion, useAnimation } from "framer-motion";
 
 export const NavBar = () => {
     const control = useAnimation();
@@ -39,12 +39,13 @@ export const NavBar = () => {
     }, [navOpen]);
     return (
         <>
-            <div className='first_header w-full h-10 bg-[#c8ffe6] flex justify-center items-center tracking-wider text-sm font-[myFont2] font-bold'>
+            <div className='first_header w-full h-fit py-2 bg-[#c8ffe6] flex justify-center items-center tracking-wider text-2xl lg:text-sm font-[myFont2] font-bold'>
                 <a href="#">AS SEEN ON SHARK TANK. GET 10% OFF. CODE SHARK10.</a>
             </div>
             <div className='text-slider h-fit w-full overflow-hidden'>
                 <motion.div
-                    className={`h-fit w-fit flex flex-grow-0 flex-shrink-0 flex-nowrap gap-32 items-center`}
+                    className={`h-fit w-fit flex flex-grow-0 flex-shrink-0 flex-nowrap gap-32 items-center text-2xl lg:text-sm`}
+                    initial={{x:0}}
                     animate={control}
                     onMouseEnter={() => { control.stop("slide") }}
                     onMouseLeave={() => { control.start("slide") }}
@@ -53,7 +54,7 @@ export const NavBar = () => {
                     {textGoing}
                 </motion.div>
             </div>
-            <div className="social_links w-full h-fit flex items-center justify-end gap-2 pr-20 pt-7 text-xl ">
+            <div className="social_links w-full h-fit flex items-center justify-end gap-2 pr-20 pt-7 mb-2 text-4xl lg:text-xl lg:m-0">
                 <i class="ri-instagram-line cursor-pointer"></i>
                 <i class="ri-facebook-circle-fill cursor-pointer"></i>
                 <i class="ri-youtube-fill cursor-pointer"></i>
@@ -62,7 +63,7 @@ export const NavBar = () => {
             </div>
             <hr />
             <div className=" Navmain w-full h-fit flex flexitems-end justify-between lg:flex-nowrap lg:justify-end gap-[1.5vw] px-14 pt-5 ">
-                <div className="logo text-2xl md:text-3xl font-bold cursor-pointer">Flatheads</div>
+                <div className="logo text-6xl lg:text-3xl font-bold cursor-pointer">Flatheads</div>
                 <div className="hidden lg:flex gap-12 uppercase flex-wrap pb-3">
                     {
                         navItems.map((items, key) => {
@@ -82,7 +83,7 @@ export const NavBar = () => {
                     <motion.i class="ri-search-line cursor-pointer rounded-full inline w-fit h-fit px-3 py-2" whileHover={{ color: "white", backgroundColor: "black" }}></motion.i>
                     <motion.i class="ri-shopping-bag-4-line cursor-pointer rounded-full inline w-fit h-fit px-3 py-2" whileHover={{ color: "white", backgroundColor: "black" }}></motion.i>
                 </div>
-                <div className="mobilenav lg:hidden flex text-2xl gap-2 ">
+                <div className="mobilenav lg:hidden flex text-6xl gap-2 ">
                     <i class="ri-search-line cursor-pointer"></i>
                     <i class="ri-menu-fill cursor-pointer" onClick={() => { setnavOpen(prev => !prev) }}></i>
                     <i class="ri-shopping-bag-line cursor-pointer"></i>
@@ -115,26 +116,26 @@ export const NavBar = () => {
                     <div className=' w-1/2 h-[125%] bg-slate-400 opacity-40' onClick={() => { setnavOpen(prev => !prev) }}></div>
                     <motion.div className='w-1/2 h-full bg-white flex flex-col px-3 py-3'>
                         <div className=' p-3 text-2xl flex justify-end cursor-pointer'>
-                            <motion.i class="ri-close-line"
+                            <motion.i class="ri-close-line text-8xl"
                                 whileHover={{ rotate: 180 }}
                                 onClick={() => { setnavOpen(prev => !prev) }}></motion.i>
                         </div>
                         <div className='flex flex-col text-lg uppercase tracking-wider mb-3 h-fit' >
                             {navItems.map((item) => {
                                 return (
-                                    <NavItemsMobile item={item} className="p-2 cursor-pointer font-mono" variants={{ open:{y:0,opacity:1,transition:{duration:0.2,staggerChildren:0.2}},closed:{y:6,opacity:0}}} />
+                                    <NavItemsMobile item={item} className="p-2 cursor-pointer font-mono text-3xl" variants={{ open:{y:0,opacity:1,transition:{duration:0.2,staggerChildren:0.2}},closed:{y:6,opacity:0}}} />
                                 )
                             })}
                         </div>
-                        <div className=' text-base font-thin cursor-pointer'>Log in</div>
-                        <div className="icon mt-8 text-center">
-                            <i class="ri-instagram-line w-[33%] py-2 font-mono cursor-pointer text-2xl border-opacity-30 border-2 border-slate-400 float-left"></i>
-                            <i class="ri-instagram-line w-[33%] py-2 font-mono cursor-pointer text-2xl border-opacity-30 border-2 border-slate-400 float-left"></i>
-                            <i class="ri-instagram-line w-[33%] py-2 font-mono cursor-pointer text-2xl border-opacity-30 border-2 border-slate-400 float-left"></i>
-                            <i class="ri-instagram-line w-[33%] py-2 font-mono cursor-pointer text-2xl border-opacity-30 border-2 border-slate-400 float-left"></i>
-                            <i class="ri-instagram-line w-[33%] py-2 font-mono cursor-pointer text-2xl border-opacity-30 border-2 border-slate-400 float-left"></i>
-                            <i class="ri-instagram-line w-[33%] py-2 font-mono cursor-pointer text-2xl border-opacity-30 border-2 border-slate-400 float-left"></i>
-                            <i class="ri-instagram-line w-[33%] py-2 font-mono cursor-pointer text-2xl border-opacity-30 border-2 border-slate-400 float-left"></i>
+                        <div className='my-12 pl-12 text-5xl font-mono tracking-tight  capitalize cursor-pointer'>Log in</div>
+                        <div className="icon mt-0 text-center">
+                            <i class="ri-instagram-line w-[50%] h-fit py-2 font-mono cursor-pointer text-6xl border-opacity-30 border-2 border-slate-400 float-left"></i>
+                            <i class="ri-instagram-line w-[50%] h-fit py-2 font-mono cursor-pointer text-6xl border-opacity-30 border-2 border-slate-400 float-left"></i>
+                            <i class="ri-instagram-line w-[50%] h-fit py-2 font-mono cursor-pointer text-6xl border-opacity-30 border-2 border-slate-400 float-left"></i>
+                            <i class="ri-instagram-line w-[50%] h-fit py-2 font-mono cursor-pointer text-6xl border-opacity-30 border-2 border-slate-400 float-left"></i>
+                            <i class="ri-instagram-line w-[50%] h-fit py-2 font-mono cursor-pointer text-6xl border-opacity-30 border-2 border-slate-400 float-left"></i>
+                            <i class="ri-instagram-line w-[50%] h-fit py-2 font-mono cursor-pointer text-6xl border-opacity-30 border-2 border-slate-400 float-left"></i>
+                            <i class="ri-instagram-line w-[50%] h-fit py-2 font-mono cursor-pointer text-6xl border-opacity-30 border-2 border-slate-400 float-left"></i>
                         </div>
                     </motion.div>
                 </motion.div>
@@ -253,7 +254,7 @@ const NavItemsMobile = (props) => {
                     {
                         props.item.subId.map((items) => {
                             return (
-                                <motion.div className='cursor-pointer'
+                                <motion.div className='cursor-pointer text-2xl'
                                     variants={{
                                         closed: {
                                             y: 6,
