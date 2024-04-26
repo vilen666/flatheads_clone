@@ -88,7 +88,7 @@ export const NavBar = () => {
                     <i class="ri-menu-fill cursor-pointer" onClick={() => { setnavOpen(prev => !prev) }}></i>
                     <i class="ri-shopping-bag-line cursor-pointer"></i>
                 </div>
-                <motion.div className='absolute w-full h-screen flex justify-end  top-0 left-0 lg:hidden overflow-y-scroll'
+                <motion.div className='absolute w-full h-screen flex justify-end z-[999] top-0 left-0 lg:hidden overflow-y-scroll'
                     initial="closed"
                     animate={control}
                     variants={{

@@ -1,9 +1,11 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState,useRef } from 'react';
 import { motion, useAnimation } from "framer-motion";
 
 export const ImageSlider = ({ className = "w-[500px] h-[300px]", images, dots = false, underLines = false }) => {
     const [Counter, setCounter] = useState(0);
+    let b=useRef(null)
     const [hoverFlag, setHoverFlag] = useState(false)
+    const [img, setimg] = useState(images[Counter].path);
     const slideControl = useAnimation()
     const variants = {
         initial:
@@ -17,7 +19,7 @@ export const ImageSlider = ({ className = "w-[500px] h-[300px]", images, dots = 
         },
         final:
         {
-            x: 0,
+            x: "0%",
             opacity: 1,
             transition: {
                 duration: 0.8,
@@ -25,21 +27,24 @@ export const ImageSlider = ({ className = "w-[500px] h-[300px]", images, dots = 
             }
         }
     }
-    async function handleNext() {
-        await slideControl.start("initial")
+    function handleNext() {
         setCounter(prev => prev === images.length - 1 ? 0 : prev + 1)
-        slideControl.start("final")
     }
-    async function handlePrev() {
-        await slideControl.start("initial")
+    function handlePrev() {
         setCounter(prev => prev === 0 ? images.length - 1 : prev - 1)
-        slideControl.start("final")
     }
-    const ImageComponent = React.lazy(() => import(`${images[Counter].path}`));
+    useEffect(() => {
+        
+        slideControl.start("initial")
+        setimg(images[Counter].path)
+        b.current=setTimeout(()=>slideControl.start("final"),100);
+        return(()=>
+        clearTimeout(b.current))
+    }, [Counter]);
     return (
         <>
             <div className={`Slider relative overflow-hidden  ${className}`}>
-                <motion.div animate={slideControl} variants={variants}  as={React.Suspense} fallback={<div>Loading...</div>} src={ImageComponent} alt={"image.alt"} className="w-full h-full bg-contain"   />
+                <motion.img src={img} alt={"not found"} animate={slideControl} variants={variants} className="w-full h-full bg-contain bg-black" />
                 <button className='w-1/2 h-full top-0 left-0 absolute bg-transparent cursor-auto' onClick={handlePrev}
                     onMouseEnter={() => { setHoverFlag(true) }}
                     onMouseLeave={() => { setHoverFlag(false) }}
@@ -62,7 +67,8 @@ export const ImageSlider = ({ className = "w-[500px] h-[300px]", images, dots = 
                         {images.map((_, key) => {
                             return (
                                 <>
-                                    <motion.div key={key} className={` w-[100px] h-2 bg-slate-50`}>
+                                    <motion.div key={key} className={` w-[100px] h-2 bg-slate-50 cursor-pointer`}
+                                    onClick={()=>setCounter(key)}>
                                         {
                                             key == Counter &&
                                             <motion.div className='h-full w-full bg-slate-600'
@@ -70,7 +76,7 @@ export const ImageSlider = ({ className = "w-[500px] h-[300px]", images, dots = 
                                                     transformOrigin: "left"
                                                 }}
                                                 initial={{ scaleX: 0 }}
-                                                animate={!hoverFlag ? { scaleX: 1, transition: { delay: 0.5, duration: 3, ease: "linear" } } : {}}
+                                                animate={!hoverFlag ? { scaleX: 1, transition: { delay: 0.5, duration: 5, ease: "linear" } } : {}}
                                                 onAnimationComplete={() => !hoverFlag ? handleNext() : ""}
                                             />
                                         }

@@ -8,4 +8,5 @@ Steps:
 2) All the basics are set
 3) i will create all my components in components folder in src
 4) Lets start with navigation bar
+5) now let us begin with imageslider
 
